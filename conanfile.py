@@ -10,7 +10,7 @@ class GoogletestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     exports_sources = "src/*"
-    no_copy_source = True
+    build_policy = "missing"
 	
     def build(self):
         cmake = CMake(self)
@@ -19,14 +19,14 @@ class GoogletestConan(ConanFile):
                 self.settings.compiler.toolset is not None and self.settings.compiler.toolset != "None"
            ):
             self.output.info("MSVC toolset: %s" % self.settings.compiler.toolset)
-            self.run('cmake %s/src -T %s %s %s %s' % (\
+            self.run("cmake %s/src -T %s %s %s %s" % (\
                 self.source_folder, \
                 self.settings.compiler.toolset, \
                 cmake.command_line, \
                 "-Dgtest_force_shared_crt=ON", \
                 "-DCMAKE_CXX_STANDART=11"))
         else:
-            self.run('cmake %s/src %s %s' % (self.source_folder, cmake.command_line, "-DCMAKE_CXX_STANDART=11"))
+            self.run("cmake %s/src %s %s" % (self.source_folder, cmake.command_line, "-DCMAKE_CXX_STANDART=11"))
 
         self.run("cmake --build . %s" % cmake.build_config)
 
