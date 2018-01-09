@@ -6,7 +6,7 @@ env:
     CONAN_USERNAME: odant
     CONAN_REFERENCE: googletest/1.8.0
 
-    CONAN_ARCHS: "\"x86_64, x86\""
+    CONAN_ARCHS: "\"x86_64\""
     CONAN_BUILD_TYPES: "\"Debug, Release\""
 
     CONAN_UPLOAD: https://api.bintray.com/conan/odant/conan

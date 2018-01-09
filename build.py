@@ -35,12 +35,18 @@ if __name__ == "__main__":
         visual_versions=visual_versions,
         visual_runtimes=visual_runtimes
     )
-    builder.add_common_builds()
+    builder.add_common_builds(pure_c=False)
+    builds = []
     if platform.system() == "Windows":
-        builds = []
         for settings, options, env_vars, build_requires in builder.builds:
+            # Add MSVC toolset
             if settings["compiler"] == "Visual Studio":
                 toolsets = vs_get_toolsets(settings["compiler.version"])
                 builds += vs_add_toolset_to_build(settings, options, env_vars, build_requires, toolsets)
-        builder.builds = builds
+    elif platform.system() == "Linux":
+        for settings, options, env_vars, build_requires in builder.builds:
+            # Only libstdc++11
+            if settings["compiler.libcxx"] == "libstdc++11":
+                builds.append([settings, options, env_vars, build_requires])
+    builder.builds = builds
     builder.run()
