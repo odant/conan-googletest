@@ -1,1 +1,1 @@
-# conan_googletest
+# conan-googletest
