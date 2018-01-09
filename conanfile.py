@@ -6,7 +6,7 @@ class GoogletestConan(ConanFile):
     version = "1.8.0"
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
-    url = "https://github.com/google/googletest"
+    url = "https://github.com/odant/conan-googletest"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     exports_sources = "src/*"
@@ -26,6 +26,7 @@ class GoogletestConan(ConanFile):
         self.copy("*.h", dst="include", src="src/googletest/include")
         self.copy("*.h", dst="include", src="src/googlemock/include")
         # libraries
+        self.copy("*.a", dst="lib", keep_path=False)
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*gtest.pdb", dst="bin", keep_path=False)
         self.copy("*gmock.pdb", dst="bin", keep_path=False)
@@ -35,8 +36,7 @@ class GoogletestConan(ConanFile):
         self.copy("*gmockd.pdb", dst="bin", keep_path=False)
         self.copy("*gtest_maind.pdb", dst="bin", keep_path=False)
         self.copy("*gmock_maind.pdb", dst="bin", keep_path=False)
-        self.copy("*.a", dst="lib", keep_path=False)
-
+        
     def package_info(self):
         self.cpp_info.libs = ["gmock_main"] if self.settings.build_type == "Release" else ["gmock_maind"]
         self.cpp_info.defines = ["GTEST_LANG_CXX11"]
