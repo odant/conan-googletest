@@ -9,7 +9,7 @@ class GoogletestConan(ConanFile):
     url = "https://github.com/odant/conan-googletest"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    exports_sources = "src/*"
+    exports_sources = "src/*", "CMakeLists.txt"
     no_copy_source = True
     build_policy = "missing"
 	
@@ -18,7 +18,7 @@ class GoogletestConan(ConanFile):
         cmake.definitions["CMAKE_CXX_STANDART"] = "11"
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             cmake.definitions["gtest_force_shared_crt:BOOL"] = "ON"
-        cmake.configure(source_folder="src")
+        cmake.configure()
         cmake.build()
 
     def package(self):
