@@ -54,12 +54,11 @@ if __name__ == "__main__":
         builds = filter_libcxx(builds)
     # Replace build configurations
     builder.items = []
-    for settings, options, env_vars, build_requires, reference in builds:
+    for settings, options, env_vars, build_requires, _ in builds:
         builder.add(
             settings=settings,
             options=options,
             env_vars=env_vars,
-            build_requires=build_requires,
-            reference=reference
+            build_requires=build_requires
         )
     builder.run()
