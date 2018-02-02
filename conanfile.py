@@ -12,6 +12,11 @@ class GoogletestConan(ConanFile):
     exports_sources = "src/*", "CMakeLists.txt"
     no_copy_source = True
     build_policy = "missing"
+    
+    def configure(self):
+        if "libcxx" in self.settings.compiler.fields:
+            if self.settings.compiler.libcxx == "libstdc++":
+                raise Exception("This package is only compatible with libstdc++11")
 	
     def build(self):
         cmake = CMake(self)
