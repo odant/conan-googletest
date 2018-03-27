@@ -14,26 +14,27 @@ class GoogletestConan(ConanFile):
     build_policy = "missing"
     
     def configure(self):
-        if "libcxx" in self.settings.compiler.fields:
-            if self.settings.compiler.libcxx == "libstdc++":
-                raise Exception("This package is only compatible with libstdc++11")
+        if self.settings.compiler.get_safe("libcxx") == "libstdc++":
+            raise Exception("This package is only compatible with libstdc++11")
 
     def build(self):
         cmake = CMake(self)
         cmake.verbose = True
         cmake.definitions["CMAKE_CXX_STANDART"] = "11"
+        cmake.definitions["CMAKE_CXX_STANDART_REQUIRED"] = "ON"
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             cmake.definitions["gtest_force_shared_crt:BOOL"] = "ON"
         cmake.configure()
         cmake.build()
 
     def package(self):
-        # headers
+        # Headers
         self.copy("*.h", dst="include", src="src/googletest/include")
         self.copy("*.h", dst="include", src="src/googlemock/include")
-        # libraries
+        # Libraries
         self.copy("*.a", dst="lib", keep_path=False)
         self.copy("*.lib", dst="lib", keep_path=False)
+        # PDB
         self.copy("*gtest.pdb", dst="bin", keep_path=False)
         self.copy("*gmock.pdb", dst="bin", keep_path=False)
         self.copy("*gtest_main.pdb", dst="bin", keep_path=False)
