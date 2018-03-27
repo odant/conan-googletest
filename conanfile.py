@@ -17,9 +17,10 @@ class GoogletestConan(ConanFile):
         if "libcxx" in self.settings.compiler.fields:
             if self.settings.compiler.libcxx == "libstdc++":
                 raise Exception("This package is only compatible with libstdc++11")
-	
+
     def build(self):
         cmake = CMake(self)
+        cmake.verbose = True
         cmake.definitions["CMAKE_CXX_STANDART"] = "11"
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             cmake.definitions["gtest_force_shared_crt:BOOL"] = "ON"
