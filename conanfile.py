@@ -18,7 +18,8 @@ class GoogletestConan(ConanFile):
             raise Exception("This package is only compatible with libstdc++11")
 
     def build(self):
-        cmake = CMake(self)
+        build_type = "RelWithDebInfo" if self.settings.build_type == "Release" else "Debug"
+        cmake = CMake(self, build_type=build_type)
         cmake.verbose = True
         cmake.definitions["CMAKE_CXX_STANDART"] = "11"
         cmake.definitions["CMAKE_CXX_STANDART_REQUIRED"] = "ON"
