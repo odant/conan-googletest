@@ -9,7 +9,7 @@ class GoogletestConan(ConanFile):
     url = "https://github.com/odant/conan-googletest"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    exports_sources = "src/*", "CMakeLists.txt", "FindGTest.cmake"
+    exports_sources = "src/*", "CMakeLists.txt", "FindGTest.cmake", "FindGMock.cmake"
     no_copy_source = True
     build_policy = "missing"
     
@@ -31,6 +31,7 @@ class GoogletestConan(ConanFile):
     def package(self):
         # CMake scripts
         self.copy("FindGTest.cmake", dst=".", src=".", keep_path=False)
+        self.copy("FindGMock.cmake", dst=".", src=".", keep_path=False)
         # Headers
         self.copy("*.h", dst="include", src="src/googletest/include", keep_path=True)
         self.copy("*.h", dst="include", src="src/googlemock/include", keep_path=True)

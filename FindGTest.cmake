@@ -2,8 +2,8 @@
 # ODANT 2018
 
 
-find_path(GTEST_INCLUDE_DIR gtest/gtest.h
-    NAMES tbb/tbb.h
+find_path(GTEST_INCLUDE_DIR
+    NAMES gtest/gtest.h
     PATHS ${CONAN_INCLUDE_DIRS_GOOGLETEST}
     NO_DEFAULT_PATH
 )

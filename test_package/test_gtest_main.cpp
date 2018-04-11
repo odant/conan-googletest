@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 
-TEST(testGTest, testGTest) {
+TEST(testGTestMain, testGTestMain) {
 
     SUCCEED();
 }

@@ -37,3 +37,24 @@ add_test(
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     COMMAND test_gtest_main
 )
+
+
+# GMock imported targets
+
+find_package(GMock REQUIRED)
+
+add_executable(test_gmock test_gmock.cpp)
+target_link_libraries(test_gmock GMock::GMock)
+add_test(
+    NAME test_gmock
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    COMMAND test_gmock
+)
+
+add_executable(test_gmock_main test_gmock_main.cpp)
+target_link_libraries(test_gmock_main GMock::Main)
+add_test(
+    NAME test_gmock_main
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    COMMAND test_gmock_main
+)
