@@ -29,3 +29,11 @@ add_test(
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     COMMAND test_gtest
 )
+
+add_executable(test_gtest_main test_gtest_main.cpp)
+target_link_libraries(test_gtest_main GTest::Main)
+add_test(
+    NAME test_gtest_main
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    COMMAND test_gtest_main
+)
