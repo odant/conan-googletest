@@ -30,8 +30,8 @@ class GoogletestConan(ConanFile):
 
     def package(self):
         # Headers
-        self.copy("*.h", dst="include", src="src/googletest/include")
-        self.copy("*.h", dst="include", src="src/googlemock/include")
+        self.copy("*.h", dst="include", src="src/googletest/include", keep_path=True)
+        self.copy("*.h", dst="include", src="src/googlemock/include", keep_path=True)
         # Libraries
         self.copy("*.a", dst="lib", keep_path=False)
         self.copy("*.lib", dst="lib", keep_path=False)
