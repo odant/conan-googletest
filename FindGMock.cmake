@@ -35,8 +35,10 @@ if(GMOCK_FOUND)
     set(GMOCK_DEFINITIONS ${CONAN_COMPILE_DEFINITIONS_GOOGLETEST})
     mark_as_advanced(GMOCK_INCLUDE_DIR GMOCK_LIBRARY GMOCK_MAIN_LIBRARY)
 
-    include(CMakeFindDependencyMacro)
-    find_dependency(Threads)
+
+    if(NOT MSVC)
+        find_dependency(GTest)
+    endif()
 
     if(NOT TARGET GMock::GMock)
 
@@ -45,13 +47,27 @@ if(GMOCK_FOUND)
         set_target_properties(GMock::GMock PROPERTIES
             IMPORTED_LOCATION "${GMOCK_LIBRARY}"
             IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
-            INTERFACE_INCLUDE_DIRECTORIES "${GMOCK_INCLUDE_DIR}"
-            INTERFACE_COMPILE_DEFINITIONS "${CONAN_COMPILE_DEFINITIONS_GOOGLETEST}"
-            INTERFACE_LINK_LIBRARIES Threads::Threads
         )
 
+        if(MSVC)
+
+            set_property(TARGET GMock::GMock PROPERTY
+                INTERFACE_INCLUDE_DIRECTORIES "${GMOCK_INCLUDE_DIR}"
+            )
+            set_property(TARGET GMock::GMock PROPERTY
+                INTERFACE_COMPILE_DEFINITIONS "${CONAN_COMPILE_DEFINITIONS_GOOGLETEST}"
+            )
+
+        else()
+
+            set_property(TARGET GMock::GMock APPEND PROPERTY
+                INTERFACE_LINK_LIBRARIES GTest::GTest
+            )
+
+        endif()
+
     endif()
-    
+
     if(NOT TARGET GMock::Main)
 
         add_library(GMock::Main UNKNOWN IMPORTED)
@@ -59,10 +75,24 @@ if(GMOCK_FOUND)
         set_target_properties(GMock::Main PROPERTIES
             IMPORTED_LOCATION "${GMOCK_MAIN_LIBRARY}"
             IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
-            INTERFACE_INCLUDE_DIRECTORIES "${GMOCK_INCLUDE_DIR}"
-            INTERFACE_COMPILE_DEFINITIONS "${CONAN_COMPILE_DEFINITIONS_GOOGLETEST}"
-            INTERFACE_LINK_LIBRARIES Threads::Threads
         )
+
+        if(MSVC)
+
+            set_property(TARGET GMock::Main PROPERTY
+                INTERFACE_INCLUDE_DIRECTORIES "${GMOCK_INCLUDE_DIR}"
+            )
+            set_property(TARGET GMock::Main PROPERTY
+                INTERFACE_COMPILE_DEFINITIONS "${CONAN_COMPILE_DEFINITIONS_GOOGLETEST}"
+            )
+
+        else()
+
+            set_property(TARGET GMock::Main APPEND PROPERTY
+                INTERFACE_LINK_LIBRARIES GMock::GMock
+            )
+
+        endif()
 
     endif()
     

@@ -51,7 +51,11 @@ class GoogletestConan(ConanFile):
     def package_info(self):
         self.cpp_info.libs = ["gmock_main"] if self.settings.build_type == "Release" else ["gmock_maind"]
         self.cpp_info.defines = ["GTEST_LANG_CXX11"]
-
+        #
         if self.settings.os == "Linux":
+            if self.settings.build_type == "Release":
+                self.cpp_info.libs.extend(["gmock", "gtest"])
+            else:
+                self.cpp_info.libs.extend(["gmockd", "gtestd"])
             self.cpp_info.libs.append("pthread")
 
