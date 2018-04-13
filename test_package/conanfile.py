@@ -1,3 +1,7 @@
+# Dmitriy Vetutnev 2018
+# ODANT 2018
+
+
 from conans import ConanFile, CMake
 
 
@@ -11,8 +15,5 @@ class GoogletestTestConan(ConanFile):
         cmake.configure()
         cmake.build()
 
-    def imports(self):
-        self.copy("*.dll", dst="bin", src="bin")
-
     def test(self):
-        self.run("ctest --output-on-failure --build-config %s --verbose" % self.settings.build_type)
+        self.run("ctest --verbose --build-config %s" % self.settings.build_type)

@@ -1,3 +1,7 @@
+# Dmitriy Vetutnev 2018
+# ODANT 2018
+
+
 from conans import ConanFile, CMake
 
 
@@ -12,7 +16,7 @@ class GoogletestConan(ConanFile):
     exports_sources = "src/*", "CMakeLists.txt", "FindGTest.cmake", "FindGMock.cmake"
     no_copy_source = True
     build_policy = "missing"
-    
+
     def configure(self):
         if self.settings.compiler.get_safe("libcxx") == "libstdc++":
             raise Exception("This package is only compatible with libstdc++11")
@@ -21,8 +25,6 @@ class GoogletestConan(ConanFile):
         build_type = "RelWithDebInfo" if self.settings.build_type == "Release" else "Debug"
         cmake = CMake(self, build_type=build_type)
         cmake.verbose = True
-        cmake.definitions["CMAKE_CXX_STANDART"] = "11"
-        cmake.definitions["CMAKE_CXX_STANDART_REQUIRED"] = "ON"
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             cmake.definitions["gtest_force_shared_crt:BOOL"] = "ON"
         cmake.configure()
@@ -47,7 +49,7 @@ class GoogletestConan(ConanFile):
         self.copy("*gmockd.pdb", dst="bin", keep_path=False)
         self.copy("*gtest_maind.pdb", dst="bin", keep_path=False)
         self.copy("*gmock_maind.pdb", dst="bin", keep_path=False)
-        
+
     def package_info(self):
         self.cpp_info.libs = ["gmock_main"] if self.settings.build_type == "Release" else ["gmock_maind"]
         self.cpp_info.defines = ["GTEST_LANG_CXX11"]

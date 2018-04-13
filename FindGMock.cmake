@@ -95,5 +95,5 @@ if(GMOCK_FOUND)
         endif()
 
     endif()
-    
+
 endif()

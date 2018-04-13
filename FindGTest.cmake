@@ -51,7 +51,7 @@ if(GTEST_FOUND)
         )
 
     endif()
-    
+
     if(NOT TARGET GTest::Main)
 
         add_library(GTest::Main UNKNOWN IMPORTED)
@@ -63,5 +63,5 @@ if(GTEST_FOUND)
         )
 
     endif()
-    
+
 endif()
