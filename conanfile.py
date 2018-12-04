@@ -2,24 +2,27 @@
 # ODANT 2018
 
 
-from conans import ConanFile, CMake
+from conans import ConanFile, CMake, tools
 
 
 class GoogletestConan(ConanFile):
     name = "googletest"
-    version = "1.9.0-b2"
+    version = "1.9.0-b3"
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
     url = "https://github.com/odant/conan-googletest"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    exports_sources = "src/*", "CMakeLists.txt", "FindGTest.cmake", "FindGMock.cmake"
+    exports_sources = "src/*", "CMakeLists.txt", "FindGTest.cmake", "FindGMock.cmake", "print_fs_path.patch"
     no_copy_source = True
     build_policy = "missing"
 
     def configure(self):
         if self.settings.compiler.get_safe("libcxx") == "libstdc++":
             raise Exception("This package is only compatible with libstdc++11")
+
+    def source(self):
+        tools.patch(patch_file="print_fs_path.patch")
 
     def build(self):
         build_type = "RelWithDebInfo" if self.settings.build_type == "Release" else "Debug"

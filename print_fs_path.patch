@@ -1,0 +1,26 @@
+diff --git a/src/googletest/include/gtest/internal/gtest-internal.h b/src/googletest/include/gtest/internal/gtest-internal.h
+index b32237a..1386b68 100644
+--- a/src/googletest/include/gtest/internal/gtest-internal.h
++++ b/src/googletest/include/gtest/internal/gtest-internal.h
+@@ -968,14 +968,17 @@ template <typename T>
+ const bool IsHashTable<T>::value;
+ 
+ template<typename T>
+-struct VoidT {
+-    typedef void value_type;
++struct Void {
++    typedef void type;
+ };
+ 
++template<typename T>
++using VoidT = typename Void<T>::type;
++
+ template <typename T, typename = void>
+-struct HasValueType : false_type {};
++struct HasValueType: false_type {};
+ template <typename T>
+-struct HasValueType<T, VoidT<typename T::value_type> > : true_type {
++struct HasValueType<T, VoidT<typename T::value_type>>: true_type {
+ };
+ 
+ template <typename C,
