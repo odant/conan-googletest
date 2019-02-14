@@ -58,3 +58,17 @@ add_test(
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     COMMAND test_gmock_main
 )
+
+
+include(CheckIncludeFileCXX)
+CHECK_INCLUDE_FILE_CXX("filesystem" HAVE_CXX_FILESYSTEM)
+if(HAVE_CXX_FILESYSTEM)
+    message(STATUS "Compiler support std::filesystem")
+    add_executable(test_print_filesystem_path test_print_filesystem_path.cpp)
+    target_link_libraries(test_print_filesystem_path GTest::Main)
+    add_test(
+        NAME test_print_filesystem_path
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+        COMMAND test_print_filesystem_path
+    )
+endif()
