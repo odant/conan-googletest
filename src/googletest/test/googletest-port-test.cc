@@ -286,7 +286,9 @@ TEST(FormatCompilerIndependentFileLocationTest, FormatsUknownFileAndLine) {
   EXPECT_EQ("unknown file", FormatCompilerIndependentFileLocation(nullptr, -1));
 }
 
-#if GTEST_OS_LINUX || GTEST_OS_MAC || GTEST_OS_QNX || GTEST_OS_FUCHSIA
+#if GTEST_OS_LINUX || GTEST_OS_MAC || GTEST_OS_QNX || GTEST_OS_FUCHSIA || \
+    GTEST_OS_DRAGONFLY || GTEST_OS_FREEBSD || GTEST_OS_GNU_KFREEBSD || \
+    GTEST_OS_NETBSD || GTEST_OS_OPENBSD
 void* ThreadFunc(void* data) {
   internal::Mutex* mutex = static_cast<internal::Mutex*>(data);
   mutex->Lock();
@@ -393,7 +395,7 @@ typedef testing::Types<
 #  endif  // GTEST_HAS_GLOBAL_STRING
     const char*> StringTypes;
 
-TYPED_TEST_CASE(RETest, StringTypes);
+TYPED_TEST_SUITE(RETest, StringTypes);
 
 // Tests RE's implicit constructors.
 TYPED_TEST(RETest, ImplicitConstructorWorks) {
