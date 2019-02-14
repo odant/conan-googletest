@@ -61,14 +61,35 @@ add_test(
 
 
 include(CheckIncludeFileCXX)
-CHECK_INCLUDE_FILE_CXX("filesystem" HAVE_CXX_FILESYSTEM)
+if(MSVC)
+    set(CMAKE_REQUIRED_FLAGS "/std:c++17")
+else()
+    set(CMAKE_REQUIRED_FLAGS "-std=c++17")
+    set(CMAKE_REQUIRED_LIBRARIES "stdc++fs")
+endif()
+CHECK_INCLUDE_FILE_CXX(filesystem HAVE_CXX_FILESYSTEM)
+
 if(HAVE_CXX_FILESYSTEM)
-    message(STATUS "Compiler support std::filesystem")
     add_executable(test_print_filesystem_path test_print_filesystem_path.cpp)
-    target_link_libraries(test_print_filesystem_path GTest::Main)
+    set_target_properties(test_print_filesystem_path PROPERTIES CXX_STANDARD 17)
+    set_target_properties(test_print_filesystem_path PROPERTIES CXX_EXTENSIONS OFF)
+
+    include(CheckCXXSymbolExists)
+    CHECK_CXX_SYMBOL_EXISTS("std::filesystem::path::preferred_separator" filesystem HAVE_CXX_STD_FILESYSTEM)
+    CHECK_CXX_SYMBOL_EXISTS("std::experimental::filesystem::path::preferred_separator" filesystem HAVE_CXX_EXPERIMENTAL_FILESYSTEM)
+    if(HAVE_CXX_STD_FILESYSTEM)
+        message(STATUS "C++ compiler support std::filesystem")
+        target_compile_definitions(test_print_filesystem_path PRIVATE -DHAVE_CXX_STD_FILESYSTEM)
+    elseif(HAVE_CXX_EXPERIMENTAL_FILESYSTEM)
+        message(STATUS "C++ compiler support std::experimental::filesystem")
+        target_compile_definitions(test_print_filesystem_path PRIVATE -DHAVE_CXX_EXPERIMANTAL_FILESYSTEM)
+    endif()
+
+    target_link_libraries(test_print_filesystem_path ${CMAKE_REQUIRED_LIBRARIES} GTest::Main)
     add_test(
         NAME test_print_filesystem_path
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
         COMMAND test_print_filesystem_path
     )
 endif()
+

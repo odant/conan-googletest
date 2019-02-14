@@ -2,14 +2,16 @@
 #include <filesystem>
 
 
-#ifdef _MSC_VER
-using namespace std::experimental::filesystem;
+#if defined(HAVE_CXX_STD_FILESYSTEM)
+namespace fs = std::filesystem;
+#elif defined(HAVE_CXX_EXPERIMANTAL_FILESYSTEM)
+namespace fs = std::experimental::filesystem;
 #else
-using namespace std::filesystem;
+#error "Can`t detect filesystem namespace"
 #endif
 
 
 TEST(testGTestMain, testGTestMain) {
-    const path path1 = "/home/user/folder";
+    const fs::path path1 = "/home/user/folder";
     std::cout << ::testing::PrintToString(path1) << std::endl;
 }
