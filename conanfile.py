@@ -7,7 +7,7 @@ from conans import ConanFile, CMake, tools
 
 class GoogletestConan(ConanFile):
     name = "googletest"
-    version = "1.9.0-b4"
+    version = "1.9.0-b5"
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
     url = "https://github.com/odant/conan-googletest"
@@ -23,10 +23,11 @@ class GoogletestConan(ConanFile):
 
     def build(self):
         build_type = "RelWithDebInfo" if self.settings.build_type == "Release" else "Debug"
-        cmake = CMake(self, build_type=build_type)
+        cmake = CMake(self, build_type=build_type, msbuild_verbosity='normal')
         cmake.verbose = True
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
-            cmake.definitions["gtest_force_shared_crt:BOOL"] = "ON"
+            if self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd":
+                cmake.definitions["gtest_force_shared_crt:BOOL"] = "ON"
         cmake.configure()
         cmake.build()
 
