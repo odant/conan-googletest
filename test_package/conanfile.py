@@ -10,7 +10,7 @@ class GoogletestTestConan(ConanFile):
     generators = "cmake"
 
     def build(self):
-        cmake = CMake(self)
+        cmake = CMake(self, msbuild_verbosity='normal')
         cmake.verbose = True
         cmake.configure()
         cmake.build()
