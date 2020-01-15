@@ -7,7 +7,7 @@ from conans import ConanFile, CMake, tools
 
 class GoogletestConan(ConanFile):
     name = "googletest"
-    version = "1.10.0"
+    version = "1.10.0+1"
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
     url = "https://github.com/odant/conan-googletest"
@@ -53,8 +53,6 @@ class GoogletestConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["gmock_main"] if self.settings.build_type == "Release" else ["gmock_maind"]
-        self.cpp_info.defines = ["GTEST_LANG_CXX11"]
-        #
         if self.settings.os == "Linux":
             if self.settings.build_type == "Release":
                 self.cpp_info.libs.extend(["gmock", "gtest"])
