@@ -12,7 +12,7 @@ env:
     CONAN_LOGIN_USERNAME: travis
     CONAN_STABLE_BRANCH_PATTERN: release/*
 
-    CONAN_OPTIONS: googletest:with_unit_tests=True
+    CONAN_OPTIONS: googletest:with_unit_tests=False
     CONAN_SHARED_OPTION_NAME: False
     CONAN_PURE_C: False
 
