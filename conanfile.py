@@ -11,25 +11,47 @@ class GoogletestConan(ConanFile):
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
     url = "https://github.com/odant/conan-googletest"
-    settings = "os", "compiler", "build_type", "arch"
+    settings = {
+        "os": ["Windows", "Linux"],
+        "compiler": ["Visual Studio", "gcc"],
+        "build_type": ["Debug", "Release"],
+        "arch": ["x86", "x86_64", "mips"]
+    }
+    options = {
+        "with_unit_tests": [True, False],
+        "ninja": [True, False]
+    }
+    default_options = {
+        "with_unit_tests": False,
+        "ninja": True
+    }
     generators = "cmake"
     exports_sources = "src/*", "CMakeLists.txt", "FindGTest.cmake", "FindGMock.cmake"
     no_copy_source = True
     build_policy = "missing"
 
-    def configure(self):
-        if self.settings.compiler.get_safe("libcxx") == "libstdc++":
-            raise Exception("This package is only compatible with libstdc++11")
+    def build_requiments(self):
+        if self.options.ninja:
+            self.build_requires("ninja/1.9.0")
 
     def build(self):
         build_type = "RelWithDebInfo" if self.settings.build_type == "Release" else "Debug"
-        cmake = CMake(self, build_type=build_type, msbuild_verbosity='normal')
+        gen = "Ninja" if self.options.ninja == True else None
+        cmake = CMake(self, build_type=build_type, generator=gen, msbuild_verbosity='normal')
         cmake.verbose = True
         if self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             if self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd":
                 cmake.definitions["gtest_force_shared_crt:BOOL"] = "ON"
+        if self.options.with_unit_tests:
+            cmake.definitions["gtest_build_tests"] = "ON"
+            cmake.definitions["gmock_build_tests"] = "ON"
         cmake.configure()
         cmake.build()
+        if self.options.with_unit_tests:
+            if cmake.is_multi_configuration:
+                self.run("ctest --output-on-failure --build-config %s" % build_type)
+            else:
+                self.run("ctest --output-on-failure")
 
     def package(self):
         # CMake scripts
@@ -50,6 +72,10 @@ class GoogletestConan(ConanFile):
         self.copy("*gmockd.pdb", dst="bin", keep_path=False)
         self.copy("*gtest_maind.pdb", dst="bin", keep_path=False)
         self.copy("*gmock_maind.pdb", dst="bin", keep_path=False)
+
+    def package_id(self):
+        self.info.options.with_unit_tests = "any"
+        self.info.options.ninja = "any"
 
     def package_info(self):
         self.cpp_info.libs = ["gmock_main"] if self.settings.build_type == "Release" else ["gmock_maind"]
