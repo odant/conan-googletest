@@ -1,5 +1,5 @@
-# Dmitriy Vetutnev 2018
-# ODANT 2018
+# googletest Conan package
+# Dmitriy Vetutnev, Odant 2018 - 2020
 
 
 from conans import ConanFile, CMake, tools
@@ -7,7 +7,7 @@ from conans import ConanFile, CMake, tools
 
 class GoogletestConan(ConanFile):
     name = "googletest"
-    version = "1.10.0+1"
+    version = "1.10.0+2"
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
     url = "https://github.com/odant/conan-googletest"
