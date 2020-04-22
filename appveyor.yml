@@ -17,9 +17,14 @@ environment:
   CONAN_LOGIN_USERNAME: appveyor
   CONAN_STABLE_BRANCH_PATTERN: release/*
 
+  CONAN_OPTIONS: googletest:with_unit_tests=True
+  CONAN_SHARED_OPTION_NAME: False
+  CONAN_PURE_C: False
+
   matrix:
 
 # Visual Studio 2017
+
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CONAN_VISUAL_VERSIONS: 15
       CONAN_VISUAL_RUNTIMES: MD
@@ -69,6 +74,7 @@ environment:
       CONAN_ARCHS: x86
 
 # Visual Studio 2019
+
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CONAN_VISUAL_VERSIONS: 16
       CONAN_VISUAL_RUNTIMES: MD
