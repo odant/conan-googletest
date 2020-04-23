@@ -15,7 +15,7 @@ class GoogletestConan(ConanFile):
         "os": ["Windows", "Linux"],
         "compiler": ["Visual Studio", "gcc"],
         "build_type": ["Debug", "Release"],
-        "arch": ["x86", "x86_64", "mips"]
+        "arch": ["x86", "x86_64", "mips", "armv7"]
     }
     options = {
         "with_unit_tests": [True, False],
