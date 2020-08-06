@@ -32,7 +32,7 @@ class GoogletestConan(ConanFile):
 
     def build_requirements(self):
         if self.options.ninja:
-            self.build_requires("ninja/1.9.0")
+            self.build_requires("ninja/1.10.0")
 
     def source(self):
         tools.patch(patch_file="fix_tests.patch")
