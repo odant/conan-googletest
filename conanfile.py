@@ -7,7 +7,7 @@ from conans import ConanFile, CMake, tools
 
 class GoogletestConan(ConanFile):
     name = "googletest"
-    version = "1.10.0+2"
+    version = "1.10.0+3"
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
     url = "https://github.com/odant/conan-googletest"
@@ -30,7 +30,7 @@ class GoogletestConan(ConanFile):
     no_copy_source = True
     build_policy = "missing"
 
-    def build_requiments(self):
+    def build_requirements(self):
         if self.options.ninja:
             self.build_requires("ninja/1.9.0")
 
