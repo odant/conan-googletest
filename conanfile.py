@@ -13,7 +13,7 @@ class GoogletestConan(ConanFile):
     url = "https://github.com/odant/conan-googletest"
     settings = {
         "os": ["Windows", "Linux"],
-        "compiler": ["Visual Studio", "gcc"],
+        "compiler": ["Visual Studio", "gcc", "clang"],
         "build_type": ["Debug", "Release"],
         "arch": ["x86", "x86_64", "mips", "armv7"]
     }
@@ -32,7 +32,7 @@ class GoogletestConan(ConanFile):
 
     def build_requirements(self):
         if self.options.ninja:
-            self.build_requires("ninja/1.10.0")
+            self.build_requires("ninja/1.9.0")
 
     def source(self):
         tools.patch(patch_file="fix_tests.patch")
