@@ -86,6 +86,34 @@ matrix:
 
     - <<: *linux_build
       env:
+       CONAN_GCC_VERSIONS: 10
+       CONAN_DOCKER_IMAGE: conanio/gcc10
+       CONAN_BUILD_TYPES: Release
+       CONAN_ARCHS: x86_64
+
+    - <<: *linux_build
+      env:
+       CONAN_GCC_VERSIONS: 10
+       CONAN_DOCKER_IMAGE: conanio/gcc10
+       CONAN_BUILD_TYPES: Debug
+       CONAN_ARCHS: x86_64
+
+    - <<: *linux_build
+      env:
+       CONAN_GCC_VERSIONS: 10
+       CONAN_DOCKER_IMAGE: conanio/gcc10
+       CONAN_BUILD_TYPES: Release
+       CONAN_ARCHS: x86
+
+    - <<: *linux_build
+      env:
+       CONAN_GCC_VERSIONS: 10
+       CONAN_DOCKER_IMAGE: conanio/gcc10
+       CONAN_BUILD_TYPES: Debug
+       CONAN_ARCHS: x86
+
+    - <<: *linux_build
+      env:
        CONAN_CLANG_VERSIONS: 9
        CONAN_DOCKER_IMAGE: conanio/clang9
        CONAN_BUILD_TYPES: Release
