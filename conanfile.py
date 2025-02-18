@@ -7,7 +7,7 @@ from conans import ConanFile, CMake, tools
 
 class GoogletestConan(ConanFile):
     name = "googletest"
-    version = "1.15.2+0"
+    version = "1.16.0+0"
     license = "BSD 3-clauses https://github.com/google/googletest/blob/master/googletest/LICENSE"
     description = "Google's C++ test framework"
     url = "https://github.com/odant/conan-googletest"
